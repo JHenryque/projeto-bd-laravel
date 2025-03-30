@@ -57,6 +57,16 @@ class MianController extends Controller
         // SELECT * FROM products WHERE price > 80 OR product_name LIKE A%
         $products = DB::table('products')->where('price','>',80)->orwhere('product_name','like','A%')->get();
 
+        $products = DB::table('products')->where([
+            ['price','>=',70],
+            ['product_name', 'like', 'A%']
+        ])->get();
+
+        $products = DB::table('products')->where('price', '>', 90)
+            ->orwhere(function ($query) {
+               $query->where('product_name', 'Banana')->orwhere('product_name', 'cereja');
+            })->get();
+
         $this->showDataTable($products);
 //        $this->showRawData($results);
 //        $this->showDataTable($products);
