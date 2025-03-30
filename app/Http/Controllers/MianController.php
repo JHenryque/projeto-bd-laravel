@@ -42,10 +42,26 @@ class MianController extends Controller
         // SELECT * FROM products WHERE id=10
         $results = DB::table('products')->find(10);
 
-        $this->showRawData($results);
+        // select com where
+        //$products = DB::table('products')->where('id', 10)->first(); ou
+        $products1 = Db::table('products')->where('id','>=',10)->get();
+        $products = DB::table('products')->select(['product_name', 'price'])->get();
+
+        // Select * from products WHERE price > 70
+        $products = DB::table('products')->where('price','>=',70)->get();
+
+        // SELECT * FROM products WHERE price > 50 AND product_name LIKE A%
+        $products = DB::table('products')->where('price','>', 50)
+                    ->where('product_name','like','A%')->get();
+
+        // SELECT * FROM products WHERE price > 80 OR product_name LIKE A%
+        $products = DB::table('products')->where('price','>',80)->orwhere('product_name','like','A%')->get();
+
         $this->showDataTable($products);
-        $this->showRawData($resultsF);
-        $this->showRawData($resultsL);
+//        $this->showRawData($results);
+//        $this->showDataTable($products);
+//        $this->showRawData($resultsF);
+//        $this->showRawData($resultsL);
         //$this->showDataTable($clientes);
     }
 
