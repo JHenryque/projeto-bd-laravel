@@ -67,12 +67,31 @@ class MianController extends Controller
                $query->where('product_name', 'Banana')->orwhere('product_name', 'cereja');
             })->get();
 
-        $this->showDataTable($products);
+        $products = DB::table('products')->where('product_name','not like', 'M%')->get();
+
+        $products = DB::table('products')->whereNot('product_name', 'like', 'M%')->get();
+
+        $products = DB::table('clients')->whereAny(['client_name', 'email'], 'like', '%he%')->get();
+
+        $products = DB::table('products')->whereBetween('price', [70, 80])->get();
+
+        $products = DB::table('products')->whereNotBetween('price', [90, 100])->get();
+
+        // SELECT * FROM products WHERE id= 1 OR id = 3 OR id = 5
+        $products = DB::table('products')->whereIn('id', [1,2,5])->get();
+
+        $products = DB::table('products')->whereNotIn('id', [1,2,5])->get();
+
+
+        $clients = DB::table('clients')->whereNotNull('deleted_at')->get();
+
+        $clients = DB::table('clients')->whereDate('created_at', '2032-02-14')->get();
+
+        $clients = DB::table('clients')->whereDay('created_at', '10')->get();
+
+
+        $this->showDataTable($clients);
 //        $this->showRawData($results);
-//        $this->showDataTable($products);
-//        $this->showRawData($resultsF);
-//        $this->showRawData($resultsL);
-        //$this->showDataTable($clientes);
     }
 
     private function showRawData($data)
