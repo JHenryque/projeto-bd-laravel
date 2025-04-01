@@ -89,9 +89,34 @@ class MianController extends Controller
 
         $clients = DB::table('clients')->whereDay('created_at', '10')->get();
 
+        // order os produtos por preço descente
+       $products =  DB::table('products')->orderBy('price', 'desc')->get();
 
-        $this->showDataTable($clients);
+       // buscar apesnas os produtos com os 3 preço mains altos
+        $results = DB::table('products')->orderBy('price', 'desc')->limit(3)->get();
+
+
+        $this->showDataTable($products);
 //        $this->showRawData($results);
+
+        // queste ir buscar dados agregados
+        $count = DB::table('products')->count();
+        $mas_price = DB::table('products')->max('price');
+        $mini_price = DB::table('products')->min('price');
+        $avg_price = DB::table('products')->avg('price');
+        $sum_price = DB::table('products')->sum('price');
+
+        echo '<pre>';
+        print_r([
+           'count' => $count,
+           'mas_price' => $mas_price,
+           'mini_price' => $mini_price,
+           'avg_price' => $avg_price,
+           'sum_price' => $sum_price,
+
+        ]);
+
+
     }
 
     private function showRawData($data)
