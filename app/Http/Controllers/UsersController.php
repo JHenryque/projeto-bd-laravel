@@ -56,6 +56,7 @@ class UsersController extends Controller
 
         DB::table('clients')->where('Client_name', 'Joao victor')->update(['deleted_at' => Carbon::now()]);
 
+
     }
 
     /**
